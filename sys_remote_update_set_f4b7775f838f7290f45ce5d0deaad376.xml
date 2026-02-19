@@ -1,0 +1,741 @@
+<?xml version="1.0" encoding="UTF-8"?><unload unload_date="2026-02-19 16:31:59">
+<sys_remote_update_set action="INSERT_OR_UPDATE">
+<application display_value="Global">global</application>
+<application_name>Global</application_name>
+<application_scope>global</application_scope>
+<application_version/>
+<collisions/>
+<commit_date/>
+<deleted/>
+<description/>
+<inserted/>
+<name>SP-Widget+MCP</name>
+<origin_sys_id/>
+<parent display_value=""/>
+<release_date/>
+<remote_base_update_set display_value=""/>
+<remote_parent_id/>
+<remote_sys_id>138e6f5b834f7290f45ce5d0deaad3b9</remote_sys_id>
+<state>loaded</state>
+<summary/>
+<sys_class_name>sys_remote_update_set</sys_class_name>
+<sys_created_by>wsdhero</sys_created_by>
+<sys_created_on>2026-02-19 16:31:58</sys_created_on>
+<sys_id>f4b7775f838f7290f45ce5d0deaad376</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_updated_by>wsdhero</sys_updated_by>
+<sys_updated_on>2026-02-19 16:31:58</sys_updated_on>
+<update_set display_value=""/>
+<update_source display_value=""/>
+<updated/>
+</sys_remote_update_set>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="Global">global</application>
+<category>customer</category>
+<comments/>
+<name>sys_script_include_bd36a49083073a10f45ce5d0deaad3ba</name>
+<payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sys_script_include"&gt;&lt;sys_script_include action="INSERT_OR_UPDATE"&gt;&lt;access&gt;public&lt;/access&gt;&lt;active&gt;true&lt;/active&gt;&lt;api_name&gt;global.pdi2Agent&lt;/api_name&gt;&lt;caller_access/&gt;&lt;client_callable&gt;true&lt;/client_callable&gt;&lt;description/&gt;&lt;mobile_callable&gt;false&lt;/mobile_callable&gt;&lt;name&gt;pdi2Agent&lt;/name&gt;&lt;sandbox_callable&gt;false&lt;/sandbox_callable&gt;&lt;script&gt;&lt;![CDATA[var pdi2Agent = Class.create();
+pdi2Agent.prototype = Object.extendsObject(AbstractAjaxProcessor, {
+    
+    initialize: function() {},
+
+    // Server script method with optional base_url
+    sendPromptServer: function(prompt, base_url) {
+        gs.info("=== pdi2Agent.sendPromptServer called with: " + prompt);
+        return this._makeAPICall(prompt, base_url);
+    },
+
+    // Shared REST API logic
+    _makeAPICall: function(prompt, base_url) {
+        gs.info("=== pdi2Agent._makeAPICall starting...");
+        
+        // Default base_url if not provided
+        if (!base_url) {
+            base_url = 'https://5954-188-26-245-18.ngrok-free.app';
+        }
+        
+        try {
+            var r = new sn_ws.RESTMessageV2('pdi2agent2', 'post');
+            
+            var requestBody = {
+                "prompt": prompt
+            };
+            
+            r.setRequestHeader('Content-Type', 'application/json');
+            r.setRequestBody(JSON.stringify(requestBody));
+            r.setStringParameter('base_url', base_url);  // Use the parameter
+            
+            gs.info("=== Calling API at: " + base_url + " with prompt: " + prompt);
+            
+            var response = r.execute();
+            var status = response.getStatusCode();
+            var body = response.getBody();
+            
+            gs.info('=== API Response - Status: ' + status + ', Body: ' + body);
+            
+            if (status == 200) {
+                var result = JSON.parse(body);
+                var finalResult = { 
+                    success: true, 
+                    response: result.response || result.answer || body 
+                };
+                gs.info("=== Returning success: " + JSON.stringify(finalResult));
+                return finalResult;
+            } else {
+                var errorResult = { 
+                    success: false, 
+                    error: 'API error ' + status + ': ' + body 
+                };
+                gs.info("=== Returning error: " + JSON.stringify(errorResult));
+                return errorResult;
+            }
+            
+        } catch (e) {
+            gs.error('=== pdi2Agent EXCEPTION: ' + e.toString());
+            return { 
+                success: false, 
+                error: e.toString() 
+            };
+        }
+    },
+
+    type: 'pdi2Agent'
+});]]&gt;&lt;/script&gt;&lt;sys_class_name&gt;sys_script_include&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2026-02-09 17:35:14&lt;/sys_created_on&gt;&lt;sys_id&gt;bd36a49083073a10f45ce5d0deaad3ba&lt;/sys_id&gt;&lt;sys_mod_count&gt;7&lt;/sys_mod_count&gt;&lt;sys_name&gt;pdi2Agent&lt;/sys_name&gt;&lt;sys_package display_value="Global" source="global"&gt;global&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_scope display_value="Global"&gt;global&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_script_include_bd36a49083073a10f45ce5d0deaad3ba&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2026-02-18 06:37:41&lt;/sys_updated_on&gt;&lt;/sys_script_include&gt;&lt;sys_es_latest_script action="INSERT_OR_UPDATE"&gt;&lt;id&gt;bd36a49083073a10f45ce5d0deaad3ba&lt;/id&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2026-02-09 17:35:13&lt;/sys_created_on&gt;&lt;sys_id&gt;7146e49083073a10f45ce5d0deaad35e&lt;/sys_id&gt;&lt;sys_mod_count&gt;0&lt;/sys_mod_count&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2026-02-09 17:35:13&lt;/sys_updated_on&gt;&lt;table&gt;sys_script_include&lt;/table&gt;&lt;use_es_latest&gt;true&lt;/use_es_latest&gt;&lt;/sys_es_latest_script&gt;&lt;/record_update&gt;</payload>
+<payload_hash>1237196026</payload_hash>
+<remote_update_set display_value="SP-Widget+MCP">f4b7775f838f7290f45ce5d0deaad376</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>wsdhero</sys_created_by>
+<sys_created_on>2026-02-19 16:31:58</sys_created_on>
+<sys_id>30b7775f838f7290f45ce5d0deaad379</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>19c76bd5cfc0000001</sys_recorded_at>
+<sys_updated_by>wsdhero</sys_updated_by>
+<sys_updated_on>2026-02-19 16:31:58</sys_updated_on>
+<table/>
+<target_name>pdi2Agent</target_name>
+<type>Script Include</type>
+<update_domain>global</update_domain>
+<update_guid>d367bf1faa8f729049e36e0f0cf49bd6</update_guid>
+<update_guid_history>d367bf1faa8f729049e36e0f0cf49bd6:1237196026,2116204fdac77e501e1aa2809bb0a807:1237196026,be2d1392e3437a50c53e45c13ecacc37:49207364,e7eb5fde43037a507c6fe25029641bfa:-2104301961,174b6cd836073a10d76ab2069e36f02b:142714685,48dae8d8df073a108c54b7548543bca6:-1094985011,47186094ed073a100d7ae9e41123cedc:-706053830,73b6ac907b073a1095dad0f4c590e85a:766158761,0e46e490bb073a1024fd88a5cc67a664:-1788341693</update_guid_history>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="Global">global</application>
+<category>customer</category>
+<comments/>
+<name>sys_rest_message_0f15601083073a10f45ce5d0deaad392</name>
+<payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_rest_message"><sys_rest_message action="INSERT_OR_UPDATE"><access>public</access><authentication_type>no_authentication</authentication_type><basic_auth_password/><basic_auth_profile/><basic_auth_user/><description/><name>pdi2agent2</name><oauth2_profile/><protocol_name/><rest_endpoint>${base_url}/prompt</rest_endpoint><sys_class_name>sys_rest_message</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2026-02-09 17:30:21</sys_created_on><sys_id>0f15601083073a10f45ce5d0deaad392</sys_id><sys_mod_count>1</sys_mod_count><sys_name>pdi2agent2</sys_name><sys_package display_value="Global" source="global">global</sys_package><sys_policy/><sys_scope display_value="Global">global</sys_scope><sys_update_name>sys_rest_message_0f15601083073a10f45ce5d0deaad392</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2026-02-09 17:31:19</sys_updated_on><use_basic_auth>false</use_basic_auth><use_mutual_auth>false</use_mutual_auth></sys_rest_message></record_update>]]></payload>
+<payload_hash>-1331146446</payload_hash>
+<remote_update_set display_value="SP-Widget+MCP">f4b7775f838f7290f45ce5d0deaad376</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>wsdhero</sys_created_by>
+<sys_created_on>2026-02-19 16:31:58</sys_created_on>
+<sys_id>3cb7775f838f7290f45ce5d0deaad377</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>19c76bb7c700000001</sys_recorded_at>
+<sys_updated_by>wsdhero</sys_updated_by>
+<sys_updated_on>2026-02-19 16:31:58</sys_updated_on>
+<table/>
+<target_name>pdi2agent2</target_name>
+<type>REST Message</type>
+<update_domain>global</update_domain>
+<update_guid>1df6fbdb5e8f729084a5d799ad965ec1</update_guid>
+<update_guid_history>1df6fbdb5e8f729084a5d799ad965ec1:-1331146446,d865a81058073a108d992f51705bc5c7:-1331146446,1225a010e9073a101c87d63042837b55:-1753979357</update_guid_history>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="Global">global</application>
+<category>customer</category>
+<comments/>
+<name>sys_rest_message_fn_2935201083073a10f45ce5d0deaad3cf</name>
+<payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_rest_message_fn"><sys_rest_message_fn action="INSERT_OR_UPDATE"><authentication_type>inherit_from_parent</authentication_type><basic_auth_password/><basic_auth_profile/><basic_auth_user/><content>{&#13;
+  "prompt": "What is the weather in Ney York today?"&#13;
+}</content><function_name>post</function_name><http_method>post</http_method><lock>false</lock><oauth2_profile/><protocol_name/><qualified_name>pdi2agent2 [ post ]</qualified_name><rest_endpoint>${base_url}/prompt</rest_endpoint><rest_message display_value="pdi2agent2">0f15601083073a10f45ce5d0deaad392</rest_message><sys_class_name>sys_rest_message_fn</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2026-02-09 17:31:06</sys_created_on><sys_id>2935201083073a10f45ce5d0deaad3cf</sys_id><sys_mod_count>0</sys_mod_count><sys_name>post</sys_name><sys_package display_value="Global" source="global">global</sys_package><sys_policy/><sys_scope display_value="Global">global</sys_scope><sys_update_name>sys_rest_message_fn_2935201083073a10f45ce5d0deaad3cf</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2026-02-09 17:31:06</sys_updated_on><use_basic_auth>false</use_basic_auth><use_mid_server/><use_mutual_auth>false</use_mutual_auth></sys_rest_message_fn></record_update>]]></payload>
+<payload_hash>666443394</payload_hash>
+<remote_update_set display_value="SP-Widget+MCP">f4b7775f838f7290f45ce5d0deaad376</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>wsdhero</sys_created_by>
+<sys_created_on>2026-02-19 16:31:58</sys_created_on>
+<sys_id>70b7775f838f7290f45ce5d0deaad378</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>19c76bb7c9b0000001</sys_recorded_at>
+<sys_updated_by>wsdhero</sys_updated_by>
+<sys_updated_on>2026-02-19 16:31:58</sys_updated_on>
+<table/>
+<target_name>post</target_name>
+<type>HTTP Method</type>
+<update_domain>global</update_domain>
+<update_guid>55f6fbdbcd8f7290faac9b78d52903c5</update_guid>
+<update_guid_history>55f6fbdbcd8f7290faac9b78d52903c5:666443394,d55568109e073a108bc99d0ead3e0a91:666443394</update_guid_history>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="Global">global</application>
+<category>customer</category>
+<comments/>
+<name>sys_rest_message_fn_headers_7535641083073a10f45ce5d0deaad329</name>
+<payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_rest_message_fn_headers"><sys_rest_message_fn_headers action="INSERT_OR_UPDATE"><name>Content-Type</name><rest_message_function display_value="post">2935201083073a10f45ce5d0deaad3cf</rest_message_function><sys_class_name>sys_rest_message_fn_headers</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2026-02-09 17:31:06</sys_created_on><sys_id>7535641083073a10f45ce5d0deaad329</sys_id><sys_mod_count>0</sys_mod_count><sys_name>Content-Type</sys_name><sys_package display_value="Global" source="global">global</sys_package><sys_policy/><sys_scope display_value="Global">global</sys_scope><sys_update_name>sys_rest_message_fn_headers_7535641083073a10f45ce5d0deaad329</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2026-02-09 17:31:06</sys_updated_on><value>application/json</value></sys_rest_message_fn_headers></record_update>]]></payload>
+<payload_hash>-156713704</payload_hash>
+<remote_update_set display_value="SP-Widget+MCP">f4b7775f838f7290f45ce5d0deaad376</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>wsdhero</sys_created_by>
+<sys_created_on>2026-02-19 16:31:58</sys_created_on>
+<sys_id>b4b7775f838f7290f45ce5d0deaad378</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>19c76bb7cb80000001</sys_recorded_at>
+<sys_updated_by>wsdhero</sys_updated_by>
+<sys_updated_on>2026-02-19 16:31:58</sys_updated_on>
+<table/>
+<target_name>Content-Type</target_name>
+<type>HTTP Headers</type>
+<update_domain>global</update_domain>
+<update_guid>99f6fbdbf98f7290c427bce1464b3ec8</update_guid>
+<update_guid_history>99f6fbdbf98f7290c427bce1464b3ec8:-156713704,15556810b6073a1042b59d432050f38d:-805691976</update_guid_history>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="Global">global</application>
+<category>customer</category>
+<comments/>
+<name>sp_widget_3d70b8d483473a10f45ce5d0deaad3da</name>
+<payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sp_widget"&gt;&lt;sp_widget action="INSERT_OR_UPDATE"&gt;&lt;category&gt;custom&lt;/category&gt;&lt;client_script&gt;&lt;![CDATA[api.controller=function() {
+  var c = this;
+  
+  // Initialize variables
+  c.isChatOpen = false;
+  c.userMessage = '';
+  c.messages = [];
+  c.isLoading = false;
+  
+  // Toggle chat window
+  c.toggleChat = function() {
+    c.isChatOpen = !c.isChatOpen;
+    
+    if (c.isChatOpen &amp;&amp; c.messages.length === 0) {
+      c.addMessage('Hi there! I’m Harry, your virtual assistant. How can I help you today?', 'bot');
+    }
+    
+    if (c.isChatOpen) {
+      setTimeout(function() {
+        c.scrollToBottom();
+      }, 100);
+    }
+  };
+  
+  // Send message
+  c.sendMessage = function() {
+    if (!c.userMessage || c.userMessage.trim() === '') {
+      return;
+    }
+    
+    var userMsg = c.userMessage;
+    c.addMessage(userMsg, 'user');
+    c.userMessage = '';
+    
+    console.log('=== CLIENT: Sending message:', userMsg);
+    
+    c.data.userMessage = userMsg;
+    c.isLoading = true;
+    
+    c.server.update().then(function() {
+      console.log('=== CLIENT: Response received');
+      console.log('=== CLIENT: c.data:', c.data);
+      console.log('=== CLIENT: c.data.reply:', c.data.reply);
+      
+      c.isLoading = false;
+      
+      if (c.data.reply) {
+        c.addMessage(c.data.reply, 'bot');
+      } else {
+        console.error('=== CLIENT: No reply in c.data');
+        c.addMessage('Error: No response received from server', 'bot');
+      }
+      
+      c.scrollToBottom();
+    }).catch(function(error) {
+      console.error('=== CLIENT: Error:', error);
+      c.isLoading = false;
+      c.addMessage('Sorry, there was an error processing your message.', 'bot');
+      c.scrollToBottom();
+    });
+  };
+  
+  // Handle Enter key press
+  c.handleKeyPress = function(event) {
+    if (event.keyCode === 13) {
+      c.sendMessage();
+    }
+  };
+  
+  // Add message to chat
+  c.addMessage = function(text, type) {
+    var now = new Date();
+    var timeString = now.getHours() + ':' + 
+                     (now.getMinutes() &lt; 10 ? '0' : '') + now.getMinutes();
+    
+    c.messages.push({
+      text: text,
+      type: type,
+      time: timeString
+    });
+    
+    setTimeout(function() {
+      c.scrollToBottom();
+    }, 50);
+  };
+  
+  // Scroll chat to bottom
+  c.scrollToBottom = function() {
+    var chatMessages = document.getElementById('chatMessages');
+    if (chatMessages) {
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+  };
+}]]&gt;&lt;/client_script&gt;&lt;controller_as&gt;c&lt;/controller_as&gt;&lt;css&gt;// === Color palette ===
+$port-gore: #292460;
+$gallery: #f0f0f0;
+$white: #fff;
+$riptide: #7ee0d2;
+$gray: #7f7f7f;
+$athens-gray: #e6eaee;
+$purple-heart: #7226e0;
+
+// === Dimensions ===
+$chat-height: 380px;
+$chat-max-width: 420px;
+$chat-distance-to-window: 20px;
+$chat-padding: 20px;
+$header-height: 54px;
+$entry-height: 60px;
+
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,600');
+
+* {
+  box-sizing: border-box;
+}
+
+// === Main container ===
+.chatbot {
+  position: fixed;
+  bottom: 0;
+  right: $chat-distance-to-window;
+  width: 100%;
+  max-width: $chat-max-width;
+  box-shadow: 0 -6px 99px -17px rgba(0, 0, 0, 0.68);
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  z-index: 9999;
+
+  &amp;amp;.chatbot--closed {
+    .chatbot__message-window,
+    .chatbot__entry {
+      display: none;
+    }
+  }
+}
+
+// === Header ===
+.chatbot__header {
+  color: $white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: $port-gore;
+  height: $header-height;
+  padding: 0 $chat-padding;
+  width: 100%;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &amp;amp;:hover {
+    background-color: lighten($port-gore, 10%);
+  }
+
+  p {
+    margin: 0;
+    margin-right: $chat-padding;
+  }
+}
+
+.chatbot__close-button {
+  fill: $white;
+  width: 20px;
+  flex-shrink: 0;
+
+  &amp;amp;.icon-close {
+    width: 14px;
+  }
+}
+
+.u-text-highlight {
+  color: $riptide;
+}
+
+// === Message window ===
+.chatbot__message-window {
+  height: $chat-height;
+  padding: ($chat-padding * 2) $chat-padding $chat-padding;
+  background-color: $white;
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  &amp;amp;::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+// === Messages list ===
+.chatbot__messages {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+
+  li {
+    margin-bottom: $chat-padding;
+
+    &amp;amp;.is-ai {
+      display: inline-flex;
+      align-items: flex-start;
+    }
+
+    &amp;amp;.is-user {
+      display: inline-flex;
+      align-self: flex-end;
+      text-align: right;
+    }
+
+    .is-ai__profile-picture {
+      margin-right: 8px;
+      flex-shrink: 0;
+
+      .icon-avatar {
+        width: 40px;
+        height: 40px;
+        display: block;
+      }
+    }
+  }
+}
+
+// === Message bubble ===
+.chatbot__message {
+  display: inline-block;
+  padding: 12px $chat-padding;
+  word-break: break-word;
+  margin: 0;
+  border-radius: 6px;
+  letter-spacing: -0.01em;
+  line-height: 1.45;
+  font-size: 14px;
+
+  .is-ai &amp;amp; {
+    background-color: $gallery;
+    margin-right: $chat-padding * 1.5;
+    color: #333;
+  }
+
+  .is-user &amp;amp; {
+    background-color: $riptide;
+    margin-left: $chat-padding * 1.5;
+    color: #1a1a1a;
+  }
+}
+
+// Timestamp
+.message-time {
+  display: block;
+  font-size: 10px;
+  opacity: 0.6;
+  margin-top: 4px;
+}
+
+// === Arrows ===
+.chatbot__arrow {
+  width: 0;
+  height: 0;
+  margin-top: 14px;
+  flex-shrink: 0;
+}
+
+.chatbot__arrow--right {
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-left: 6px solid $riptide;
+}
+
+.chatbot__arrow--left {
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-right: 6px solid $gallery;
+}
+
+// === Input area ===
+.chatbot__entry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: $entry-height;
+  padding: 0 $chat-padding;
+  border-top: 1px solid $athens-gray;
+  background-color: $white;
+}
+
+.chatbot__input {
+  height: 100%;
+  width: 80%;
+  border: 0;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+
+  &amp;amp;:focus {
+    outline: none;
+  }
+
+  &amp;amp;::placeholder {
+    color: $gray;
+  }
+}
+
+.chatbot__submit {
+  fill: $purple-heart;
+  height: 22px;
+  width: 22px;
+  cursor: pointer;
+  transition: fill 0.2s ease;
+  flex-shrink: 0;
+
+  &amp;amp;:hover {
+    fill: darken($purple-heart, 20%);
+  }
+}
+
+// === Loader dots ===
+.loader {
+  display: inline-block;
+  text-align: center;
+  opacity: 0.4;
+  margin-bottom: -2px;
+}
+
+.loader__dot {
+  display: inline-block;
+  vertical-align: middle;
+  width: 6px;
+  height: 6px;
+  margin: 0 1px;
+  background: #333;
+  border-radius: 50%;
+  animation: loader 0.45s infinite alternate;
+
+  &amp;amp;:nth-of-type(2) {
+    animation-delay: 0.15s;
+  }
+  &amp;amp;:nth-of-type(3) {
+    animation-delay: 0.35s;
+  }
+}
+
+// === Keyframes ===
+@keyframes loader {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-5px); }
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+    margin-top: 10px;
+    margin-bottom: 0;
+  }
+  to {
+    opacity: 1;
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+}
+
+.animation:last-child {
+  animation: fadein 0.25s ease;
+}&lt;/css&gt;&lt;data_table&gt;sp_instance&lt;/data_table&gt;&lt;demo_data/&gt;&lt;description&gt;Floating chat widget for bottom right corner&lt;/description&gt;&lt;docs/&gt;&lt;field_list/&gt;&lt;has_preview&gt;true&lt;/has_preview&gt;&lt;id&gt;chat_widget&lt;/id&gt;&lt;internal&gt;false&lt;/internal&gt;&lt;link&gt;&lt;![CDATA[function link(scope, element, attrs, controller) {
+  
+}]]&gt;&lt;/link&gt;&lt;name&gt;Chat Widget&lt;/name&gt;&lt;option_schema/&gt;&lt;public&gt;true&lt;/public&gt;&lt;roles/&gt;&lt;script&gt;&lt;![CDATA[(function() {
+  gs.info('=== CHAT WIDGET SERVER SCRIPT START ===');
+  gs.info('=== input.userMessage: ' + input.userMessage);
+  
+  // Process incoming message
+  if (input &amp;&amp; input.userMessage) {
+    var userMessage = input.userMessage;
+    gs.info('=== Chat Widget - Processing message: ' + userMessage);
+    
+    try {
+      // Instantiate and call the Script Include
+      var agent = new pdi2Agent();
+      var result = agent.sendPromptServer(userMessage);
+      
+      gs.info('=== Chat Widget - Result: ' + JSON.stringify(result));
+      
+      // Set the reply
+      if (result &amp;&amp; result.success &amp;&amp; result.response) {
+        data.reply = result.response;
+        gs.info('=== Chat Widget - SUCCESS - Reply set: ' + data.reply);
+      } else if (result &amp;&amp; result.error) {
+        data.reply = 'Sorry, I encountered an error: ' + result.error;
+        gs.warn('=== Chat Widget - ERROR: ' + result.error);
+      } else {
+        data.reply = 'Sorry, no response was received.';
+        gs.warn('=== Chat Widget - Unexpected result structure');
+      }
+      
+    } catch (e) {
+      gs.error('=== Chat Widget - EXCEPTION: ' + e.toString());
+      data.reply = 'Sorry, something went wrong: ' + e.toString();
+    }
+    
+  } else {
+    gs.warn('=== Chat Widget - No userMessage in input');
+    data.reply = 'No message received';
+  }
+  
+  gs.info('=== CHAT WIDGET - Final data.reply: ' + data.reply);
+  gs.info('=== CHAT WIDGET SERVER SCRIPT END ===');
+  
+})();]]&gt;&lt;/script&gt;&lt;servicenow&gt;false&lt;/servicenow&gt;&lt;sys_class_name&gt;sp_widget&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2026-02-09 18:20:17&lt;/sys_created_on&gt;&lt;sys_id&gt;3d70b8d483473a10f45ce5d0deaad3da&lt;/sys_id&gt;&lt;sys_mod_count&gt;21&lt;/sys_mod_count&gt;&lt;sys_name&gt;Chat Widget&lt;/sys_name&gt;&lt;sys_package display_value="Global" source="global"&gt;global&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_scope display_value="Global"&gt;global&lt;/sys_scope&gt;&lt;sys_update_name&gt;sp_widget_3d70b8d483473a10f45ce5d0deaad3da&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2026-02-18 07:45:29&lt;/sys_updated_on&gt;&lt;template&gt;&lt;![CDATA[&lt;div class="chatbot" ng-class="{'chatbot--closed': !c.isChatOpen}"&gt;
+
+  &lt;!-- Header --&gt;
+  &lt;div class="chatbot__header" ng-click="c.toggleChat()"&gt;
+    &lt;p&gt;&lt;strong&gt;Got a question?&lt;/strong&gt; &lt;span class="u-text-highlight"&gt;Chat Support&lt;/span&gt;&lt;/p&gt;
+    &lt;!-- Speech icon shown when closed --&gt;
+    &lt;svg class="chatbot__close-button icon-speech" viewBox="0 0 32 32" ng-show="!c.isChatOpen"&gt;
+      &lt;path d="M21.795 5.333h-11.413c-0.038 0-0.077 0-0.114 0l-0.134 0.011v2.796c0.143-0.006 0.273-0.009 0.385-0.009h11.277c0.070 0 7.074 0.213 7.074 7.695 0 5.179-2.956 7.695-9.036 7.695h-3.792c-0.691 0-1.12 0.526-1.38 1.159l-1.387 3.093-1.625 3.77 0.245 0.453h2.56l2.538-5.678h2.837c7.633 0 11.84-3.727 11.84-10.494 0.001-8.564-7.313-10.492-9.875-10.492z" /&gt;
+      &lt;path d="M10.912 24.259c-0.242-0.442-0.703-0.737-1.234-0.737h-0.56c-0.599-0.011-1.171-0.108-1.71-0.28l0.042 0.012c-1.82-0.559-4.427-2.26-4.427-7.424 0-6.683 5.024-7.597 7.109-7.686v-2.8c-2.042 0.095-9.91 1.067-9.91 10.483 0 4.832 1.961 7.367 3.606 8.64 1.38 1.067 3.109 1.744 4.991 1.843l0.033 0.019 2.805 5.211 1.41-3.273z" /&gt;
+    &lt;/svg&gt;
+    &lt;!-- Close X icon shown when open --&gt;
+    &lt;svg class="chatbot__close-button icon-close" viewBox="0 0 32 32" ng-show="c.isChatOpen"&gt;
+      &lt;path d="M2.624 8.297l2.963-2.963 23.704 23.704-2.963 2.963-23.704-23.704z" /&gt;
+      &lt;path d="M2.624 29.037l23.704-23.704 2.963 2.963-23.704 23.704-2.963-2.963z" /&gt;
+    &lt;/svg&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Message Window --&gt;
+  &lt;div class="chatbot__message-window" id="chatMessages"&gt;
+    &lt;ul class="chatbot__messages"&gt;
+
+      &lt;!-- Message list --&gt;
+      &lt;li ng-repeat="message in c.messages"
+          class="animation"
+          ng-class="{'is-ai': message.type === 'bot', 'is-user': message.type === 'user'}"&gt;
+
+        &lt;!-- Avatar for bot messages --&gt;
+        &lt;div class="is-ai__profile-picture" ng-if="message.type === 'bot'"&gt;
+          &lt;svg class="icon-avatar" viewBox="0 0 44.25 44"&gt;
+            &lt;circle cx="22.125" cy="22" r="22" fill="#7226e0"/&gt;
+            &lt;path fill="#fff" fill-rule="evenodd" d="M16.43 28.91h2.35a0.335 0.335 0 0 0 .34-.33v-5.23h5.94v5.23a0.342 0.342 0 0 0 .34.33h2.36a0.342 0.342 0 0 0 .34-.33V16.22a0.34 0.34 0 0 0-.34-.32h-2.36a0.34 0.34 0 0 0-.34.32v4.51h-5.94v-4.51a0.333 0.333 0 0 0-.34-.32h-2.35a0.333 0.333 0 0 0-.34.32v12.36a0.335 0.335 0 0 0 .34.33"/&gt;
+          &lt;/svg&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Arrow left for bot --&gt;
+        &lt;span class="chatbot__arrow chatbot__arrow--left" ng-if="message.type === 'bot'"&gt;&lt;/span&gt;
+
+        &lt;!-- Bubble --&gt;
+        &lt;p class="chatbot__message"&gt;
+          {{message.text}}
+          &lt;span class="message-time"&gt;{{message.time}}&lt;/span&gt;
+        &lt;/p&gt;
+
+        &lt;!-- Arrow right for user --&gt;
+        &lt;span class="chatbot__arrow chatbot__arrow--right" ng-if="message.type === 'user'"&gt;&lt;/span&gt;
+
+      &lt;/li&gt;
+
+      &lt;!-- Loading indicator --&gt;
+      &lt;li class="is-ai animation" ng-show="c.isLoading"&gt;
+        &lt;div class="is-ai__profile-picture"&gt;
+          &lt;svg class="icon-avatar" viewBox="0 0 44.25 44"&gt;
+            &lt;circle cx="22.125" cy="22" r="22" fill="#7226e0"/&gt;
+            &lt;path fill="#fff" fill-rule="evenodd" d="M16.43 28.91h2.35a0.335 0.335 0 0 0 .34-.33v-5.23h5.94v5.23a0.342 0.342 0 0 0 .34.33h2.36a0.342 0.342 0 0 0 .34-.33V16.22a0.34 0.34 0 0 0-.34-.32h-2.36a0.34 0.34 0 0 0-.34.32v4.51h-5.94v-4.51a0.333 0.333 0 0 0-.34-.32h-2.35a0.333 0.333 0 0 0-.34.32v12.36a0.335 0.335 0 0 0 .34.33"/&gt;
+          &lt;/svg&gt;
+        &lt;/div&gt;
+        &lt;span class="chatbot__arrow chatbot__arrow--left"&gt;&lt;/span&gt;
+        &lt;div class="chatbot__message"&gt;
+          &lt;span class="loader"&gt;
+            &lt;span class="loader__dot"&gt;&lt;/span&gt;
+            &lt;span class="loader__dot"&gt;&lt;/span&gt;
+            &lt;span class="loader__dot"&gt;&lt;/span&gt;
+          &lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/li&gt;
+
+    &lt;/ul&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Input Area --&gt;
+  &lt;div class="chatbot__entry"&gt;
+    &lt;input type="text"
+           class="chatbot__input"
+           ng-model="c.userMessage"
+           placeholder="Write a message..."
+           ng-keypress="c.handleKeyPress($event)" /&gt;
+    &lt;svg class="chatbot__submit" viewBox="0 0 23.97 21.9" ng-click="c.sendMessage()"&gt;
+      &lt;path d="M0.31,9.43a0.5,0.5,0,0,0,0,.93l8.3,3.23L23.15,0Z"/&gt;
+      &lt;path d="M9,14.6H9V21.4a0.5,0.5,0,0,0,.93.25L13.22,16l6,3.32A0.5,0.5,0,0,0,20,19l4-18.4Z"/&gt;
+    &lt;/svg&gt;
+  &lt;/div&gt;
+
+&lt;/div&gt;]]&gt;&lt;/template&gt;&lt;/sp_widget&gt;&lt;sys_es_latest_script action="INSERT_OR_UPDATE"&gt;&lt;id&gt;3d70b8d483473a10f45ce5d0deaad3da&lt;/id&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2026-02-09 18:20:16&lt;/sys_created_on&gt;&lt;sys_id&gt;6d90bcd483473a10f45ce5d0deaad3f2&lt;/sys_id&gt;&lt;sys_mod_count&gt;0&lt;/sys_mod_count&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2026-02-09 18:20:16&lt;/sys_updated_on&gt;&lt;table&gt;sp_widget&lt;/table&gt;&lt;use_es_latest&gt;true&lt;/use_es_latest&gt;&lt;/sys_es_latest_script&gt;&lt;/record_update&gt;</payload>
+<payload_hash>1904774057</payload_hash>
+<remote_update_set display_value="SP-Widget+MCP">f4b7775f838f7290f45ce5d0deaad376</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>wsdhero</sys_created_by>
+<sys_created_on>2026-02-19 16:31:58</sys_created_on>
+<sys_id>bcb7775f838f7290f45ce5d0deaad376</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>19c76bcb7530000001</sys_recorded_at>
+<sys_updated_by>wsdhero</sys_updated_by>
+<sys_updated_on>2026-02-19 16:31:58</sys_updated_on>
+<table/>
+<target_name>Chat Widget</target_name>
+<type>Widget</type>
+<update_domain>global</update_domain>
+<update_guid>c547371f1d8f72904785d983e49a5360</update_guid>
+<update_guid_history>c547371f1d8f72904785d983e49a5360:1904774057,f295b0cb7b4b7e50091edf0ed1acc8a4:1904774057,4d9570cba74b7e50b468135d1ac2ed8d:-1499291477,ae8570cb724b7e508acc7f3c6f78504a:1904774057,158530cb134b7e50c3febd1048a7529f:1718057414,9b34780bda4b7e50fce74f1f5cdeae5c:1904774057,8434740ba14b7e50caa5e9e4845f738b:1052978287,f2f3b487fd4b7e50fc7c4b6bf8b04704:348045623,67d2bc47d34b7e50233eea8845e6a030:1992986035,8ad27c47034b7e5077c7136f15b858ba:-439066885,4cd23c47a64b7e508066896490d706be:-1780133628,af45a4cbe0c77e5007fdcac644a6bccc:948566950,7545e0cb01c77e505c96307b2de03149:-1282497872,76a9cc2141cb7250f0cba893c69f5dc1:-250469714,e9633c5c4c473a108cbc17c236e8e5d8:-725222622,c4633c5c83473a10af8810b1b03623a1:-1211754846,51e27c1c9e473a1098e3d14d95dd795f:289720698,109274d8a5473a102b8160d5b5091d8c:-1429771948,281230d888473a10c938548d117d541d:-1376099502,18e038182b473a108671176e7c6534a6:-1287909985,25c0741818473a10ae3c77b9eeab3c50:2071693516,6bb0301875473a1071e672bedd37aac6:1617550894,3590bcd4f1473a10ab61436eea7e8bf9:-137066851</update_guid_history>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="Global">global</application>
+<category>customer</category>
+<comments/>
+<name>sys_rest_message_fn_parameters_d74aa89883073a10f45ce5d0deaad36b</name>
+<payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_rest_message_fn_parameters"><sys_rest_message_fn_parameters action="INSERT_OR_UPDATE"><name>base_url</name><rest_message_function display_value="post">2935201083073a10f45ce5d0deaad3cf</rest_message_function><sys_class_name>sys_rest_message_fn_parameters</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2026-02-09 17:53:01</sys_created_on><sys_id>d74aa89883073a10f45ce5d0deaad36b</sys_id><sys_mod_count>1</sys_mod_count><sys_name>base_url</sys_name><sys_package display_value="Global" source="global">global</sys_package><sys_policy/><sys_scope display_value="Global">global</sys_scope><sys_update_name>sys_rest_message_fn_parameters_d74aa89883073a10f45ce5d0deaad36b</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2026-02-16 11:59:13</sys_updated_on><type>string</type><value>https://9f89-109-100-14-206.ngrok-free.app</value></sys_rest_message_fn_parameters></record_update>]]></payload>
+<payload_hash>-557353949</payload_hash>
+<remote_update_set display_value="SP-Widget+MCP">f4b7775f838f7290f45ce5d0deaad376</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>wsdhero</sys_created_by>
+<sys_created_on>2026-02-19 16:31:58</sys_created_on>
+<sys_id>f8b7775f838f7290f45ce5d0deaad378</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>19c76bb7ce00000001</sys_recorded_at>
+<sys_updated_by>wsdhero</sys_updated_by>
+<sys_updated_on>2026-02-19 16:31:58</sys_updated_on>
+<table/>
+<target_name>base_url</target_name>
+<type>Variable Substitutions</type>
+<update_domain>global</update_domain>
+<update_guid>91f6fbdb308f7290b588eff424c23fcd</update_guid>
+<update_guid_history>91f6fbdb308f7290b588eff424c23fcd:-557353949,c08c5352b4437a503a2e4d94e4f8a99b:-557353949,265a2c985a073a10963be0a863e6bf7b:-1773625504</update_guid_history>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+</unload>
